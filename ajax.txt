@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>AJAX User Validation</title>
+</head>
+<body>
+	<form>
+		<label for="username">Username:</label>
+		<input type="text" id="username" name="username">
+		<button id="submitBtn" type="button" onclick="validateUser()">Submit</button>
+	</form>
+	<div id="result"></div>
+
+	<script>
+		function validateUser() {
+			var username = document.getElementById("username").value;
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					document.getElementById("result").innerHTML = this.responseText;
+				}
+			};
+			xhttp.open("POST", "validate.php", true);
+			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhttp.send("username=" + username);
+		}
+	</script>
+</body>
+</html>
+
+
+<?php
+ $username = $_POST['username'];
+ // Check if the username is valid
+ if (strlen($username) < 5) {
+  echo '<span style="color:red">Invalid username</span>';
+ } else {
+  echo '<span style="color:green">Valid username</span>';
+ }
+?>
+
